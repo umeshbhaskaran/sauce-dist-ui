@@ -1,0 +1,10 @@
+.sauce-logo-layout {
+	display: flex;
+	justify-content: center;
+}
+
+.search-layout {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

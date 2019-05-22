@@ -1,0 +1,34 @@
+.selectRowProp {
+  color: white;
+  line-height: 0;
+  font-size: 13px;
+}
+
+.react-bs-container-body tr {
+  border-top-style: hidden !important;
+}
+
+.react-bs-container-header tr {
+  border-bottom-style: hidden !important;
+  border-top-style: 1px solid white;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #737477;
+}
+
+.table > tbody > tr > td {
+     vertical-align: middle;
+     outline: none
+}
+
+.column-select{
+  color: white;
+  font-size: 13px;
+  line-height: 0;
+}
+
+.btn:focus {
+    outline: none !important;
+    outline-offset: none !important;
+}
