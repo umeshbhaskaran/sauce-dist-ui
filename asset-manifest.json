@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/sauce-dist-ui/static/css/main.58234e11.chunk.css",
+    "main.js": "/sauce-dist-ui/static/js/main.21955aff.chunk.js",
+    "main.js.map": "/sauce-dist-ui/static/js/main.21955aff.chunk.js.map",
+    "runtime~main.js": "/sauce-dist-ui/static/js/runtime~main.e3bfd46b.js",
+    "runtime~main.js.map": "/sauce-dist-ui/static/js/runtime~main.e3bfd46b.js.map",
+    "static/css/2.f099710a.chunk.css": "/sauce-dist-ui/static/css/2.f099710a.chunk.css",
+    "static/js/2.abe7c4e6.chunk.js": "/sauce-dist-ui/static/js/2.abe7c4e6.chunk.js",
+    "static/js/2.abe7c4e6.chunk.js.map": "/sauce-dist-ui/static/js/2.abe7c4e6.chunk.js.map",
+    "index.html": "/sauce-dist-ui/index.html",
+    "precache-manifest.708193d224c445f29d662e92d57e5818.js": "/sauce-dist-ui/precache-manifest.708193d224c445f29d662e92d57e5818.js",
+    "service-worker.js": "/sauce-dist-ui/service-worker.js",
+    "static/css/2.f099710a.chunk.css.map": "/sauce-dist-ui/static/css/2.f099710a.chunk.css.map",
+    "static/css/main.58234e11.chunk.css.map": "/sauce-dist-ui/static/css/main.58234e11.chunk.css.map",
+    "static/media/font-awesome.css": "/sauce-dist-ui/static/media/fontawesome-webfont.fee66e71.woff",
+    "static/media/sauce.png": "/sauce-dist-ui/static/media/sauce.1bc9c15a.png"
+  }
+}
