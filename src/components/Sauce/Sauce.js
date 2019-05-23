@@ -12,6 +12,9 @@ import { departments, locations, resolutions, assets } from "../../data/data";
 
 import './Sauce.css';
 
+const PATH_BASE = 'https://api.imgur.com/3/gallery'
+const PATH_SEARCH = '/search/top/'
+const PARAM_SEARCH = 'q='
 
 class Sauce extends Component {
   constructor(props){
@@ -27,7 +30,8 @@ class Sauce extends Component {
       locations: [],
       resolutions: [],
       result: [],
-      data: []
+      data: [],
+      page: 0,
     }
   }
 
@@ -45,19 +49,21 @@ class Sauce extends Component {
   }
 
   handleInputChange = (value) => {
-    console.log(value)
     this.setState({searchTerm: value});
   }
 
   handleInputSubmit = (event) => {
-    const assetMatch = (asset) => {
-      return asset.name.includes(this.state.searchTerm)  || asset.tags.includes(this.state.searchTerm)
-    }
-    const updatedResult = assets.filter(assetMatch)
-    this.setState({
-      searchResult: updatedResult,
-      result: updatedResult
-    }, this.displayResults)
+    // const assetMatch = (asset) => {
+    //   return asset.name.includes(this.state.searchTerm)  || asset.tags.includes(this.state.searchTerm)
+    // }
+    // const updatedResult = assets.filter(assetMatch)
+    // this.setState({
+    //   searchResult: updatedResult,
+    //   result: updatedResult
+    // }, this.displayResults)
+
+    this.setState({searchResult: [], page: 0})
+    this.fetchResults(this.state.searchTerm)
     event.preventDefault()
   }
 
@@ -103,8 +109,12 @@ class Sauce extends Component {
 
   displayResults = () => {
     let filteredResult = []
+    console.log('display')
+    console.log(this.state.departments.length)
+    console.log(this.state.searchResult)
 
     const departmentMatch = (asset) => {
+      console.log('bba be raibra')
       return this.state.departments.indexOf(asset.type) > -1;
     }
 
@@ -113,26 +123,68 @@ class Sauce extends Component {
     }
 
     const resolutionMatch = (asset) => {
-      console.log('resolutions')
       return true
     }
 
 
     filteredResult = this.state.departments.length > 0 ? this.state.searchResult.filter(departmentMatch): this.state.searchResult
-    console.log(filteredResult)
-
     filteredResult = this.state.locations.length > 0 ? filteredResult.filter(locationMatch) : filteredResult
-    console.log(filteredResult)
-
     filteredResult = this.state.resolutions.length > 0 ? filteredResult.filter(resolutionMatch) : filteredResult
-    console.log(filteredResult)
 
     this.setState({result: filteredResult})
+    console.log('display end')
   }
 
-  componentDidMount(){
-    console.log('Mounting bro..')
-    const url = 'https://api.imgur.com/3/gallery/search/top/0?q=cats'
+  searchTopResults(result) {
+    const matchImage = (res) => {
+      return res.is_album === false && res.nsfw === false && res.animated === false
+    }
+    const filteredResult = result.data.filter(matchImage)
+
+    const typeMap = {
+      0: 'comp',
+      1: 'rig',
+      2: 'anim',
+      3: 'model',
+      4: 'light',
+      5: 'prep',
+      6: 'build',
+      7: 'fx',
+    }
+    const locationMap ={
+      0: 'london',
+      1: 'vancouver',
+      2: 'montreal',
+      3: 'mumbai',
+      4: 'chennai',
+      5: 'singapore',
+    }
+    const enrichedData = filteredResult.map((res, index) => {
+      let imgDate = new Date(res.datetime)
+      return {
+        name: res.title, 
+        type: typeMap[index % 8], 
+        date: imgDate.toDateString(), 
+        location: locationMap[index % 6], 
+        tags: res.tags.map(tag => {return tag.name}), 
+        thumbnail: res.link
+    }})
+
+    const updatedSearchResult = [
+    ...this.state.searchResult,
+    ...enrichedData
+    ]
+    this.setState({
+      searchResult: updatedSearchResult,
+      result: updatedSearchResult
+    }, this.displayResults)
+  }
+
+  fetchResults(searchTerm, page=0){
+    console.log(searchTerm)
+    console.log(page)
+    console.log('fetch')
+    const url = `${PATH_BASE}${PATH_SEARCH}${page}?${PARAM_SEARCH}${searchTerm}`
     fetch(url, {
       method: 'GET', 
       headers: {
@@ -140,19 +192,27 @@ class Sauce extends Component {
       }
     })
     .then(response => {return response.json()})
-    .then(data => {this.setState({data})});
-    console.log('data' + this.state.data)
+    .then(result => {this.searchTopResults(result)})
+    .catch(err => {console.log(err)});
     }
-    
+
+  componentDidMount(){
+    this.fetchResults(this.state.searchTerm)
+  }
+
+  fetchMoreData = (newPage) => {
+    this.setState({page: newPage})
+    this.fetchResults(this.state.searchTerm, newPage)
+  }
 
   render() {
     return (
       <Container fluid="false" style={{oveflow: 'hidden'}}>
         <Row>
-          <Col xs={1} sm={1} md={2} className="sauce-logo-layout" >
+          <Col xs={2} sm={2} md={3} className="sauce-logo-layout" >
             <Logo />
           </Col>
-          <Col xs={5} sm={11} md={10} className="search-layout">
+          <Col xs={4} sm={9} md={8} className="search-layout">
             <SearchByInput 
               buttonLabel={"See All"} 
               handleInputChange={this.handleInputChange} 
@@ -164,7 +224,7 @@ class Sauce extends Component {
 
         </Row>
 
-        <Row style={{height: '90vh', overflow: 'hidden'}}>
+        <Row style={{height: '85vh', overflow: 'hidden'}}>
           <Col xs={2} sm={2} md={3} style={{overflow: 'hidden'}}> 
             <p style={{fontSize: 18, color: '#f98e40'}}>Filters</p>
             <Filter label={'departments'} options={departments} displayOpts={this.state.deptOpts} handleOptionsChange={this.setDepartments}/>
@@ -172,7 +232,7 @@ class Sauce extends Component {
             <Filter label={'resolutions'} options={resolutions} displayOpts={this.state.deptReslns} handleOptionsChange={this.setResolutions}/>
           </Col>
           <Col xs={4} sm={9} md={9}>
-            <Result data={this.state.result}/>
+            <Result data={this.state.result} fetchMoreData={this.fetchMoreData} page={this.state.page}/>
           </Col>
         </Row>
       </Container>

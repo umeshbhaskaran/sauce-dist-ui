@@ -25,8 +25,7 @@ class ListTable extends Component {
     };
 
     imageFormatter = (cell, row) => {
-      console.log(cell)
-      return (<Image src={cell} thumbnail style={{width: 40}}/>)
+      return (<Image src={cell} style={{width: 60, height: 60}}/>)
     };
 
     onRowDoubleClick = (row) => {
@@ -49,7 +48,7 @@ class ListTable extends Component {
       <BootstrapTable 
       data={this.props.data}
       bordered={ false }
-      containerStyle={{ background: "#222322", height: '900px', overflow: 'hidden', display: 'flex'} }
+      containerStyle={{ background: "#222322", height: '850px', overflow: 'hidden', display: 'flex', flexWrap: 'wrap'} }
       trClassName={this.rowClassNameFormat} 
       headerStyle={{background: '#333233'}}
       options={ options }
@@ -90,19 +89,17 @@ class ListGrid extends Component {
   modalClose = () => this.setState({ modalShow: false });
 
   render() {
-    
     return(
      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'left',
-     flexWrap: 'wrap', overflow: 'auto', height: '900px',
+     flexWrap: 'wrap', overflow: 'auto', height: '850px',
      borderTop: '1px solid white'}}>  
      {this.props.data.map(asset=> 
-        <Card style={{ display: 'flex', height: 180, width: 150, boxSizing: 'border-box', 
+        <Card className='pull-right'style={{ display: 'flex', height: 180, width: 152, boxSizing: 'border-box', 
         backgroundColor: '#313233', border: '1px groove white', objectFit: 'cover', marginTop: 10}}
         onDoubleClick={this.onRowDoubleClick.bind(this, asset)}>
-        <Card.Img variant="top" src="./default-thumbnail.png" style={{height: 120, width: 150}}/>
+        <Card.Img variant="top" src={asset.thumbnail} style={{height: 120, width: 150}}/>
         <Card.Body> 
-          <Card.Text style={{marginTop: -20, textAlign: 'center'}}>
-            {asset.name}<br/>
+          <Card.Text style={{textAlign: 'center', fontSize: 12}}>
             {asset.type}<br/>
           </Card.Text>
         </Card.Body>
@@ -124,6 +121,7 @@ class Result extends Component {
     super(props);
     this.handleListView.bind(this)
     this.handleGridView.bind(this)
+    this.fetchMoreData.bind(this)
   }
 
   state = {
@@ -139,6 +137,10 @@ class Result extends Component {
     this.setState({isGrid: !this.state.isGrid})
     this.setState({isList: !this.state.isList})
   }
+  fetchMoreData = () => {
+    const newPage = this.props.page + 1
+    this.props.fetchMoreData(newPage);
+  }
 
   render() {
     return (
@@ -150,7 +152,16 @@ class Result extends Component {
 
       </div>
       {this.props.data.length > 0 && this.state.isList ? <ListTable data={this.props.data}/> : <ListGrid data={this.props.data}/>}
+      {this.props.data.length > 0 ? 
+      <div style={{marginTop: 6}}>
+      <Button className='btn' variant="secondary pull-right" size="sm" style={{height: 23, fontSize:10}}
+      onClick={this.fetchMoreData}>{'more...'}</Button>
+      </div>
+      : null
+    }
+      
     </div>
+
     );
   }
 }

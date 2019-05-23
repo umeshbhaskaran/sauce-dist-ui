@@ -1,6 +1,7 @@
 .sauce-logo-layout {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 }
 
 .search-layout {

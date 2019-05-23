@@ -1,6 +1,5 @@
 import React, { Component }from 'react';
 import {  
-  Card,
   Container, 
   Row, 
   Col,
@@ -21,24 +20,8 @@ const modalStyle = function() {
   };
 };
 
-const backdropStyle = {
-  position: 'fixed',
-  zIndex: 1040,
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
-  backgroundColor: 'green',
-  opacity: 0.5
-};
-
-
-
 
 class Detail extends Component {
-  renderBackdrop(props) {
-	return <div {...props} style={backdropStyle} />;
-  }
   render() {
   	const row = this.props.rowSelected
     return (
@@ -48,7 +31,6 @@ class Detail extends Component {
         aria-labelledby="contained-modal-title-vcenter"
         centered
         style={modalStyle()}
-        renderBackdrop={this.renderBackdrop}
       >
         <Modal.Header closeButton style={{backgroundColor: '#333233'}}>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -57,13 +39,10 @@ class Detail extends Component {
         </Modal.Header>
         <Modal.Body style={{backgroundColor: '#333233'}}>
         {row ?
-	      <Card style={{backgroundColor: '#333233'}}>
-	        <Card.Body style={{border: 'none'}}> 
-	          <Card.Text>
-	          <Container>
+	          <Container style={{backgroundColor: '#333233'}}>
 	          	<Row>
 	          	  <Col>
-	          	    <Image src={row.thumbnail}/>
+	          	    <Image src={row.thumbnail} style={{width: 380, height: 280}}/>
 	          	  </Col>
 	          	  <Col>
 	          	  	<Row>
@@ -81,9 +60,6 @@ class Detail extends Component {
 	          	  </Col>
 	          	</Row>
 	          </Container>
-	          </Card.Text>
-	        </Card.Body>
-      	  </Card>
       	  : null
       	}
         </Modal.Body>

@@ -47,13 +47,12 @@ class SearchButton extends Component {
 
 
 class SearchByInput extends Component{
-  
+
    handleChange = (event) => {
     this.props.handleInputChange(event.target.value);
    }
 
    handleSubmit = (event) => {
-    console.log('I am here')
     this.props.handleInputSubmit(event); 
   } 
 
