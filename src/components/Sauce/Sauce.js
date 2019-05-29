@@ -45,6 +45,7 @@ class Sauce extends Component {
       deptLocs: null,
       deptReslns: null,
       searchResult: [],
+      page: 0
     })
   }
 
@@ -69,10 +70,7 @@ class Sauce extends Component {
 
   searchAll = (event) => {
     this.resetValues();
-    this.setState({
-      searchResult: assets,
-      result: assets
-    })
+    this.fetchResults('rats')
   }
 
   setDepartments = (depts) => {
@@ -207,7 +205,7 @@ class Sauce extends Component {
 
   render() {
     return (
-      <Container fluid="false" style={{oveflow: 'hidden'}}>
+      <Container fluid="false" style={{height: '100%'}}>
         <Row>
           <Col xs={2} sm={2} md={3} className="sauce-logo-layout" >
             <Logo />
@@ -221,17 +219,16 @@ class Sauce extends Component {
               searchTerm={this.state.searchTerm}
               resultCount={this.state.result.length}/>
           </Col>
-
         </Row>
 
-        <Row style={{height: '85vh', overflow: 'hidden'}}>
-          <Col xs={2} sm={2} md={3} style={{overflow: 'hidden'}}> 
+        <Row style={{overflow: 'hidden', display: 'flex', height: '100%'}}>
+          <Col xs={2} sm={2} md={3} style={{flex: 1, overflow: 'hidden'}}> 
             <p style={{fontSize: 18, color: '#f98e40'}}>Filters</p>
             <Filter label={'departments'} options={departments} displayOpts={this.state.deptOpts} handleOptionsChange={this.setDepartments}/>
             <Filter label={'locations'} options={locations} displayOpts={this.state.deptLocs} handleOptionsChange={this.setLocations}/>
             <Filter label={'resolutions'} options={resolutions} displayOpts={this.state.deptReslns} handleOptionsChange={this.setResolutions}/>
           </Col>
-          <Col xs={4} sm={9} md={9}>
+          <Col xs={4} sm={9} md={9} style={{overflow: 'hidden', flex: 1}}>
             <Result data={this.state.result} fetchMoreData={this.fetchMoreData} page={this.state.page}/>
           </Col>
         </Row>

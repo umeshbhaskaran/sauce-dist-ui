@@ -39,8 +39,8 @@ class Detail extends Component {
         </Modal.Header>
         <Modal.Body style={{backgroundColor: '#333233'}}>
         {row ?
-	          <Container style={{backgroundColor: '#333233'}}>
-	          	<Row>
+	          <Container style={{backgroundColor: '#333233', overflow: 'hidden'}}>
+	          	<Row style={{display: 'flex', flexWrap: 'wrap'}}>
 	          	  <Col>
 	          	    <Image src={row.thumbnail} style={{width: 380, height: 280}}/>
 	          	  </Col>
