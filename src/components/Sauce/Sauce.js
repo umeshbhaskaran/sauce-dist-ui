@@ -6,9 +6,9 @@ import {
 } from 'react-bootstrap';
 import Logo from '../../images/Logo';
 import SearchByInput from '../Search/Search' 
-import Filter from '../Filter'
-import Result from '../Result'
-import { departments, locations, resolutions, assets } from "../../data/data";
+import Filter from '../Filter/Filter'
+import Result from '../Result/Result'
+import { departments, locations, resolutions } from "../../data/data";
 
 import './Sauce.css';
 
@@ -54,14 +54,6 @@ class Sauce extends Component {
   }
 
   handleInputSubmit = (event) => {
-    // const assetMatch = (asset) => {
-    //   return asset.name.includes(this.state.searchTerm)  || asset.tags.includes(this.state.searchTerm)
-    // }
-    // const updatedResult = assets.filter(assetMatch)
-    // this.setState({
-    //   searchResult: updatedResult,
-    //   result: updatedResult
-    // }, this.displayResults)
 
     this.setState({searchResult: [], page: 0})
     this.fetchResults(this.state.searchTerm)

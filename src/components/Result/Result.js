@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import Detail from './detail';
+import Detail from '../Detail/Detail';
 import './Result.css';
 import 'font-awesome/css/font-awesome.min.css';
 
